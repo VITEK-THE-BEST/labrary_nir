@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function create( Book $book){
+    public function create(Book $book)
+    {
         $user = auth()->user();
-
-        $user->books()->attach($book);
-        return response()->json([]);
+        if ($book['reserved'] == false) {
+            $user->books()->attach($book);
+            return response()->json([]);
+        }
+        return response()->json(['error' => "книга уже зарезирвирована"]);
     }
+
+
 
 }

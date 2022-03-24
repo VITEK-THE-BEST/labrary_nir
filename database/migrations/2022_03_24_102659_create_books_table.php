@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('author');
             $table->string('genre');
             $table->string('price');
-            $table->string('reserved');
+            $table->boolean('reserved')->default(false);
             $table->timestamps();
         });
     }

@@ -23,7 +23,7 @@ class BookController extends Controller
 
     public function show()
     {
-        $books = Book::all();
+        $books = Book::all()->where('reserved',false);
         return response()->json($books);
     }
 
