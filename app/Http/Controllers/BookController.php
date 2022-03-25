@@ -11,11 +11,9 @@ class BookController extends Controller
     {
         $validate = $request->validate([
             'name' => 'required|string',
-            'surname' => 'required|string',
-            'patronymic' => 'required|string',
-            'address' => 'required|string',
-            'phone' => 'required',
-            'password' => 'required',
+            'author' => 'required|string',
+            'genre' => 'required|string',
+            'price' => 'required|string',
         ]);
         Book::query()->create($validate);
         return response()->json([]);
