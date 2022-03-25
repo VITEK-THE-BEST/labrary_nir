@@ -24,7 +24,7 @@ Route::middleware(['api', 'auth:sanctum'])->group(function () {
     });
 
     Route::group(['prefix' => 'order'], function () {
-        Route::post('/create', [OrderController::class, 'create']);
-        Route::post('/compite', [OrderController::class, 'compite']);
+        Route::post('/create/{book}', [OrderController::class, 'create']);
+        Route::patch('/complete/{book}', [OrderController::class, 'complete']);
     });
 });

@@ -12,22 +12,28 @@ class OrderController extends Controller
         $user = auth()->user();
         if ($book['reserved'] == false) {
             $user->books()->attach($book);
+            $book->reserved = true;
+            $book->save();
             return response()->json([]);
         }
-        return response()->json(['error' => "книга уже зарезирвирована"],403);
+        return response()->json(['error' => "книга уже зарезирвирована"], 403);
     }
 
-    public function compite(Book $book)
+    /**
+     *
+     * @response 404 данная книга уже сданна
+     * */
+    public function complete(Book $book)
     {
-//        $user = auth()->user();
-//
-//        if ($book['reserved'] == true) {
-//            $user->books()->
-//            return response()->json([]);
-//        }
-//        return response()->json(['error' => "книга уже зарезирвирована"],403);
-    }
+        $book = auth()->user()
+            ->books()
+            ->where('reserved', true)
+            ->findOrFail($book->id);
 
+        $book->reserved = false;
+        $book->save();
+        return response()->json([]);
+    }
 
 
 }

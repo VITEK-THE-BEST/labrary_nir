@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Book
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $author
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $reserved
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
+ *
  * @property Collection|User[] $users
  *
  * @package App\Models
@@ -44,4 +44,8 @@ class Book extends Model
 					->withPivot('id')
 					->withTimestamps();
 	}
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

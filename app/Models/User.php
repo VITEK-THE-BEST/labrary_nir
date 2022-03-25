@@ -53,4 +53,8 @@ class User extends Authenticatable
 					->withPivot('id')
 					->withTimestamps();
 	}
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
