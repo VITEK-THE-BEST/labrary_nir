@@ -21,7 +21,7 @@
             <div></div>
             <div></div>
             <div></div>
-            <button @click=""> зарегистрироваться </button>
+<!--            <button @click=""> зарегистрироваться </button>-->
         </form>
     </div>
 </template>
