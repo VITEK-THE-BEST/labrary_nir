@@ -15,6 +15,7 @@ yarn-error.log
 /.vscode
 /.scribe
 public/packages/
+public/assets/
 public/vendor/scribe
 resources/views/scribe
 package-lock.json
