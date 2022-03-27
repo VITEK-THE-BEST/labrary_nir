@@ -1,10 +1,10 @@
-const { defineConfig } = require('@vue/cli-service')
+const {defineConfig} = require('@vue/cli-service')
 module.exports = defineConfig({
-  transpileDependencies: true
+    transpileDependencies: true,
 })
 module.exports = {
     devServer: {
-        proxy: 'http://laravel.test'
+        proxy: 'http://127.0.0.1:8000'
     },
 
     // output built static files to Laravel's public dir.

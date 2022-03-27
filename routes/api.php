@@ -6,6 +6,9 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/test', function (){
+    return ["стркоа из маршрута"];
+});
 Route::post('/registration', [UserController::class, 'register']);
 
 Route::post('/getToken', [UserController::class, 'getToken']);
