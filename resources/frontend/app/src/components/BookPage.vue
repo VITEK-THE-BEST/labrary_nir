@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>проверка страницы книг</h1>
+        <h1>Книги:</h1>
     </div>
     <button @click="takeTest" >Submit</button>
 
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import TestDataService from "../services/TakeDataServise";
+import TestDataService from "../services/BookDataServise";
 
 export default {
     name: "BookPage",
@@ -32,6 +32,9 @@ export default {
                     console.log(e);
                 });
         },
+    },
+    mounted() {
+        this.takeTest()
     }
 }
 </script>

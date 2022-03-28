@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('author');
             $table->string('genre');
-            $table->string('price');
+            $table->integer('price');
             $table->boolean('reserved')->default(false);
             $table->timestamps();
         });

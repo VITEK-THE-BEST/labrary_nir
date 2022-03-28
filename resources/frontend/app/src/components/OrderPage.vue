@@ -1,11 +1,13 @@
 <template>
     <div>
+        <h1>мои заказы:</h1>
+
     </div>
 </template>
 
 <script>
 export default {
-    name: "Authorization"
+    name: "OrderPage"
 }
 </script>
 
