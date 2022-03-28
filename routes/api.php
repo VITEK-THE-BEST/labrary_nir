@@ -6,12 +6,17 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function (){
-    return ["стркоа из маршрута"];
-});
 Route::post('/registration', [UserController::class, 'register']);
 
 Route::post('/getToken', [UserController::class, 'getToken']);
+
+Route::group(['prefix' => 'book'], function () {
+    Route::get('/show', [BookController::class, 'show']);
+});
+
+Route::group(['prefix' => 'order'], function () {
+    Route::get('/getPrice/{book}', [OrderController::class, 'getPrice']);
+});
 
 Route::middleware(['api', 'auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'user'], function () {
@@ -22,7 +27,6 @@ Route::middleware(['api', 'auth:sanctum'])->group(function () {
 
     Route::group(['prefix' => 'book'], function () {
         Route::post('/create', [BookController::class, 'create']);
-        Route::get('/show', [BookController::class, 'show']);
         Route::delete('/delete/{id}', [BookController::class, 'delete']);
     });
 

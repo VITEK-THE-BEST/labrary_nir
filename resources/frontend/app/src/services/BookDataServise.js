@@ -1,7 +1,7 @@
 import http from "../http-common";
 
 export default new  class  {
-    getData() {
-        return http.get("api/test");
+    show(){
+        return http.get("api/book/show");
     }
 };

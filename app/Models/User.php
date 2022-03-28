@@ -50,7 +50,7 @@ class User extends Authenticatable
 	public function books()
 	{
 		return $this->belongsToMany(Book::class, 'user_book')
-					->withPivot('id')
+					->withPivot(['id','date_complete_order'])
 					->withTimestamps();
 	}
     public function orders()

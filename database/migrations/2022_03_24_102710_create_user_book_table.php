@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('book_id')->references('id')->on('books');
 
             $table->timestamps();
-            $table->date('date_complite_order');
+            $table->date('date_complete_order');
         });
     }
 
