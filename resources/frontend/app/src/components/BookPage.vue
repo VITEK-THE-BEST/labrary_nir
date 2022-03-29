@@ -6,22 +6,28 @@
     <div>
         <dialog-component v-model:show="dialogVisible">
             <div>
+                <h3>Выберите до какого числа хотите аредовать книгу</h3>
+                <input
+                    type="date"
+                    @input="date = $event.target.value"
+                >
 
-                <h3>Укажите дату на которую вы планируете закзать</h3>
-                <input type="date">
-                <button @click="">подтвердить дату</button>
+                <div v-if="buttonOrderVisible">
+                    <h4>цена аренды: {{ this.priceOrder }}</h4>
+                    <button @click="orderBook(this.currentBook)">арендовать книгу</button>
+                </div>
             </div>
         </dialog-component>
     </div>
+
     <div>
         <div
             v-for="book in books"
             :key="book.id"
         >
-
-            <h3>{{ book.name }}</h3>
-            <p>{{ book.author }}</p>
-            <p>{{ book.genre }}</p>
+            <h3>{{ book['name'] }}</h3>
+            <p>{{ book['author'] }}</p>
+            <p>{{ book['genre'] }}</p>
             <button @click="showDialogTakeData(book)">арендовать за</button>
 
         </div>
@@ -41,9 +47,17 @@ export default {
     },
     data() {
         return {
+            date: "",
             books: [],
-            currentBook:{},
+            currentBook: {},
             dialogVisible: false,
+            buttonOrderVisible: false,
+            priceOrder: 0,
+        }
+    },
+    watch: {
+        date(newVal) {
+            this.getPrice(newVal)
         }
     },
     methods: {
@@ -57,16 +71,35 @@ export default {
                     console.log(e);
                 });
         },
-        orderBook(book) {
-            OrderDataService.create(book, this.$store.state.token)
+        getPrice(date) {
+            this.currentBook['date'] = date
+            OrderDataService.getPrice(this.currentBook)
                 .then(response => {
                     console.log(response.data)
-                    // this.books = response.data
+                    this.priceOrder = response.data
+                    this.buttonOrderVisible = true
                 })
                 .catch(e => {
                     console.log(e);
                 });
+            console.clear()
 
+        },
+        orderBook(book) {
+            console.log(book)
+
+            OrderDataService.create(book, this.date, this.$store.state.token)
+                .then(response => {
+                    console.log(response.data)
+                    this.getBooks();
+                    this.priceOrder = response.data
+                    this.dialogVisible = false;
+                    this.buttonOrderVisible = false;
+
+                })
+                .catch(e => {
+                    console.log(e);
+                });
         },
         showDialogTakeData(book) {
             this.dialogVisible = true;

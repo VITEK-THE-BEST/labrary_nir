@@ -11,7 +11,8 @@ class Order extends Model
 
     protected $casts = [
         'user_id' => 'int',
-        'book_id' => 'int'
+        'book_id' => 'int',
+        'date_complete_order'=>'date'
     ];
     public function user()
     {

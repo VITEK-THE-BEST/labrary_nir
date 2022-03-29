@@ -13,7 +13,7 @@ class BookController extends Controller
             'name' => 'required|string',
             'author' => 'required|string',
             'genre' => 'required|string',
-            'price' => 'required|string',
+            'price' => 'required',
         ]);
         Book::query()->create($validate);
         return response()->json([]);

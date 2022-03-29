@@ -45,20 +45,23 @@ class OrderController extends Controller
         $book->save();
         return response()->json([]);
     }
-
+// TODO:НАДО СОЗДАТЬ МЕТОД ДЛЯ КОТОРЫЕ СЕЙЧАС ЗАРЕЗЕВРИРОВАННЫ И МЕТОД КОТОРЫЙ ПОКАЗЫВАЕТ ВСЕ ЗАКАЗЫ
     public function show()
     {
-        $orders = auth()->user()->orders();
-        return $orders;
+        $orders = auth()->user()
+            ->with([
+                    'orders.book'
+                ]
+            )
+            ->get();
+        return response()->json($orders);
     }
 
-    public function getPrice(Request $request,Book $book)
+    public function getPrice(Request $request, Book $book)
     {
+        $bookPrice = $book->price;
         $date = Carbon::parse($request['date']);
-        $now = Carbon::now();
-        $diff = $date->diffInDays($now);
-        return $diff;
+        $daysCompiteOrder = $date->diffInDays(Carbon::now());
+        return response()->json(($bookPrice / 2) + ($daysCompiteOrder * ($bookPrice * 0.005)));
     }
-
-
 }

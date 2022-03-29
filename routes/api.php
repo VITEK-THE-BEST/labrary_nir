@@ -15,7 +15,7 @@ Route::group(['prefix' => 'book'], function () {
 });
 
 Route::group(['prefix' => 'order'], function () {
-    Route::get('/getPrice/{book}', [OrderController::class, 'getPrice']);
+    Route::post('/getPrice/{book}', [OrderController::class, 'getPrice']);
 });
 
 Route::middleware(['api', 'auth:sanctum'])->group(function () {
@@ -32,6 +32,7 @@ Route::middleware(['api', 'auth:sanctum'])->group(function () {
 
     Route::group(['prefix' => 'order'], function () {
         Route::post('/create/{book}', [OrderController::class, 'create']);
-        Route::patch('/complete/{book}', [OrderController::class, 'complete']);
+        Route::get('/complete/{book}', [OrderController::class, 'complete']);
+        Route::get('/show', [OrderController::class, 'show']);
     });
 });
