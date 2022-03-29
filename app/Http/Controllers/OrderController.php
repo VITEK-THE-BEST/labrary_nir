@@ -45,15 +45,48 @@ class OrderController extends Controller
         $book->save();
         return response()->json([]);
     }
-// TODO:НАДО СОЗДАТЬ МЕТОД ДЛЯ КОТОРЫЕ СЕЙЧАС ЗАРЕЗЕВРИРОВАННЫ И МЕТОД КОТОРЫЙ ПОКАЗЫВАЕТ ВСЕ ЗАКАЗЫ
-    public function show()
+
+    public function showCompleteOrder()
     {
         $orders = auth()->user()
             ->with([
-                    'orders.book'
+                    'orders.book' => function ($query) {
+                        $query->where("reserved", false);
+                    }
                 ]
             )
-            ->get();
+            ->get()[0];
+
+        $filtered  = $orders['orders']->filter(function ($value){
+            return $value['book'] != null;
+        });
+
+        $orders->toArray();
+        unset($orders['orders']);
+        $orders['orders'] = $filtered;
+
+        return response()->json($orders);
+    }
+
+    public function showNotCompleteOrder()
+    {
+        $orders = auth()->user()
+            ->with([
+                    'orders.book' => function ($query) {
+                        $query->where("reserved", true);
+                    }
+                ]
+            )
+            ->get()[0];
+
+        $filtered  = $orders['orders']->filter(function ($value){
+            return $value['book'] != null;
+        });
+
+        $orders->toArray();
+        unset($orders['orders']);
+        $orders['orders'] = $filtered;
+
         return response()->json($orders);
     }
 
@@ -61,7 +94,7 @@ class OrderController extends Controller
     {
         $bookPrice = $book->price;
         $date = Carbon::parse($request['date']);
-        $daysCompiteOrder = $date->diffInDays(Carbon::now());
-        return response()->json(($bookPrice / 2) + ($daysCompiteOrder * ($bookPrice * 0.005)));
+        $daysCompeteOrder = $date->diffInDays(Carbon::now());
+        return response()->json(($bookPrice / 2) + ($daysCompeteOrder * ($bookPrice * 0.005)));
     }
 }

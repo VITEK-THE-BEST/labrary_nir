@@ -33,6 +33,7 @@ Route::middleware(['api', 'auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'order'], function () {
         Route::post('/create/{book}', [OrderController::class, 'create']);
         Route::get('/complete/{book}', [OrderController::class, 'complete']);
-        Route::get('/show', [OrderController::class, 'show']);
+        Route::get('/showCompleteOrder', [OrderController::class, 'showCompleteOrder']);
+        Route::get('/showNotCompleteOrder', [OrderController::class, 'showNotCompleteOrder']);
     });
 });
