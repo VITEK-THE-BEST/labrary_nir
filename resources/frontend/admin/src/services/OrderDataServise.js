@@ -49,4 +49,21 @@ export default new class {
             },
         });
     }
+    getAllCompleteOrder(token) {
+        return http.get("api/admin/order/showAllCompleteOrder", {
+            headers: {
+                'Authorization': "Bearer " + token,
+                'Accept': 'application/json'
+            },
+        });
+    }
+
+    getAllNotCompleteOrder(token) {
+        return http.get("api/admin/order/showAllNotCompleteOrder", {
+            headers: {
+                'Authorization': "Bearer " + token,
+                'Accept': 'application/json'
+            },
+        });
+    }
 };

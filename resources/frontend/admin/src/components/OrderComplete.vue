@@ -1,7 +1,8 @@
 <template>
     <div>
-        <router-link to="/order_notComplete">текущие заказы</router-link> |
-        <router-link to="/order_Complete">завершенные заказы</router-link>  |
+        <router-link to="/order_notComplete">текущие заказы пользователей</router-link> |
+        <router-link to="/order_Complete">завершенные заказы пользователей</router-link>  |
+
     </div>
     <div
         v-for="order in orders"
@@ -11,7 +12,7 @@
         <h3>{{ order.book.name }}</h3>
         <p>{{ order.book.author }}</p>
         <div>
-            <p>возращенно: {{ moment(order.updated_at).format("D.M.YY") }}</p>
+            <p>полученно денег: {{ order.price }}</p>
         </div>
     </div>
 </template>
@@ -32,10 +33,10 @@ export default {
     },
     methods: {
         getOrders() {
-            OrderDataService.getCompleteOrder(this.$store.state.token)
+            OrderDataService.getAllCompleteOrder(this.$store.state.token)
                 .then(response => {
-                    console.log(response.data['orders'])
-                    this.orders = response.data['orders']
+                    console.log(response.data)
+                    this.orders = response.data
                     this.buttonOrderVisible = true
                 })
                 .catch(e => {

@@ -25,15 +25,33 @@ Route::middleware(['api', 'auth:sanctum'])->group(function () {
         Route::delete('/delete/{id}', [UserController::class, 'delete']);
     });
 
-    Route::group(['prefix' => 'book'], function () {
-        Route::post('/create', [BookController::class, 'create']);
-        Route::delete('/delete/{id}', [BookController::class, 'delete']);
-    });
 
     Route::group(['prefix' => 'order'], function () {
         Route::post('/create/{book}', [OrderController::class, 'create']);
         Route::get('/complete/{book}', [OrderController::class, 'complete']);
         Route::get('/showCompleteOrder', [OrderController::class, 'showCompleteOrder']);
         Route::get('/showNotCompleteOrder', [OrderController::class, 'showNotCompleteOrder']);
+    });
+});
+
+Route::middleware(['api', 'auth:sanctum'])->group(function () {
+    Route::group(['prefix' => 'admin'], function () {
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/showAllUsers', [UserController::class, 'showAllUsers']);
+            Route::get('/me', [UserController::class, 'me']);
+            Route::delete('/dropToken', [UserController::class, 'dropToken']);
+        });
+
+        Route::group(['prefix' => 'book'], function () {
+            Route::post('/create', [BookController::class, 'create']);
+            Route::delete('/delete/{id}', [BookController::class, 'delete']);
+        });
+
+        Route::group(['prefix' => 'order'], function () {
+            Route::post('/create/{book}', [OrderController::class, 'createAdmin']);
+            Route::get('/completeAdmin/{book}/{user}', [OrderController::class, 'completeAdmin']);
+            Route::get('/showAllCompleteOrder', [OrderController::class, 'showAllCompleteOrder']);
+            Route::get('/showAllNotCompleteOrder', [OrderController::class, 'showAllNotCompleteOrder']);
+        });
     });
 });

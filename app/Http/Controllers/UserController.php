@@ -50,6 +50,13 @@ class UserController extends Controller
         return response()->json(["token" => $token]);
     }
 
+    public function showAllUsers()
+    {
+        $users =  User::query()->select(['id','name','surname']);
+
+        return response()->json($users);
+    }
+
 
     public function me()
     {
