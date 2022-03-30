@@ -43,4 +43,12 @@ export default new class {
             },
         });
     }
+    getUsers(token) {
+        return http.get("api/admin/user/showAllUsers", {
+            headers: {
+                'Authorization': "Bearer " + token,
+                'Accept': 'application/json'
+            },
+        });
+    }
 };

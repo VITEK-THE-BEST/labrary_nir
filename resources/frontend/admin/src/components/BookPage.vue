@@ -6,11 +6,15 @@
     <div>
         <dialog-component v-model:show="dialogVisible">
             <div>
-                <h3>Выберите до какого числа хотите аредовать книгу</h3>
-                <input
-                    type="date"
-                    @input="date = $event.target.value"
-                >
+                <h3>человека который хочет арендовать книгу</h3>
+                <select-component
+                v-model:model-value_="users"
+                    :options="users"
+                ></select-component>
+<!--                <input-->
+<!--                    type="date"-->
+<!--                    @input="date = $event.target.value"-->
+<!--                >-->
 
                 <div v-if="buttonOrderVisible">
                     <h4>цена аренды: {{ this.priceOrder }}</h4>
@@ -36,14 +40,17 @@
 </template>
 
 <script>
+import UserDataServise from "../services/UserDataServise";
 import BookDataService from "../services/BookDataServise";
 import OrderDataService from "../services/OrderDataServise";
 import DialogComponent from "@/components/DialogComponent";
+import SelectComponent from "@/components/SelectComponent";
 
 export default {
     name: "BookPage",
     components: {
-        DialogComponent
+        DialogComponent,
+        SelectComponent
     },
     data() {
         return {
@@ -53,6 +60,8 @@ export default {
             dialogVisible: false,
             buttonOrderVisible: false,
             priceOrder: 0,
+            selectUser: '',
+            users: [],
         }
     },
     watch: {
@@ -86,8 +95,6 @@ export default {
 
         },
         orderBook(book) {
-            console.log(book)
-
             OrderDataService.create(book, this.date, this.$store.state.token)
                 .then(response => {
                     console.log(response.data)
@@ -104,10 +111,20 @@ export default {
         showDialogTakeData(book) {
             this.dialogVisible = true;
             this.currentBook = book;
+        },
+        getUsers() {
+            UserDataServise.getUsers( this.$store.state.token)
+                .then(response => {
+                    this.users = response.data
+                })
+                .catch(e => {
+                    console.log(e);
+                });
         }
     },
     mounted() {
         this.getBooks()
+        this.getUsers()
     }
 }
 </script>

@@ -52,7 +52,7 @@ class UserController extends Controller
 
     public function showAllUsers()
     {
-        $users =  User::query()->select(['id','name','surname']);
+        $users =  User::all();
 
         return response()->json($users);
     }
