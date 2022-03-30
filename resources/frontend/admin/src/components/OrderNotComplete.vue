@@ -9,10 +9,22 @@
         v-model:show="dialogVisible"
     >
         <div>
-            <h3>поддтвердить получение и оплату следующего тавара:</h3>
+            <h3>Арендатель:</h3>
+            <p>{{ this.currentOrder['user']['name'] }}</p>
+            <p>{{ this.currentOrder['user']['surname'] }}</p>
+            <p>{{ this.currentOrder['user']['patronymic'] }}</p>
+
+            <h3>книга</h3>
             <p>{{ this.currentOrder.book.name }}</p>
             <p>{{ this.currentOrder.book.author }}</p>
-            <p>{{ this.currentOrder }}</p>
+            <div v-if="this.currentOrder['price'] > 0">
+                <p>Вы должны дать арендателю: {{this.currentOrder['price']}} р.</p>
+            </div>
+            <div v-else>
+                <p>Арендатель должен заплаить: {{ Math.abs(this.currentOrder['price']).toFixed(2)}} р.</p>
+            </div>
+
+            <button @click="completeOrder(this.currentOrder)">Поддтвердить возврат</button>
         </div>
 
     </dialog-component>
@@ -25,7 +37,6 @@
         <h3>{{ order.book.name }}</h3>
         <p>{{ order.book.author }}</p>
         <div>
-            <p>статус заказа: {{ order.status }}</p>
             <p>статус заказа: {{ order.status }}</p>
         </div>
     </div>
@@ -64,10 +75,21 @@ export default {
                 });
             console.clear()
         },
+        completeOrder(order) {
+            OrderDataService.completeAdmin(order['book']['id'], order['user']['id'],this.$store.state.token)
+                .then(response => {
+                    console.log(response.data)
+                    this.getOrders()
+                    this.dialogVisible = false
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            console.clear()
+        },
         showDialog(order) {
             this.dialogVisible = true
             this.currentOrder = order
-
         },
     },
     mounted() {

@@ -11,8 +11,12 @@
         <h3>{{ order.book.id }}</h3>
         <h3>{{ order.book.name }}</h3>
         <p>{{ order.book.author }}</p>
-        <div>
-            <p>полученно денег: {{ order.price }}</p>
+
+        <div v-if="order.price > 0">
+            <p>Выплатили арендодателю: {{order['price']}} р.</p>
+        </div>
+        <div v-else>
+            <p>Арендатель добавил к стоимости: {{ Math.abs(order['price']).toFixed(2)}} р.</p>
         </div>
     </div>
 </template>

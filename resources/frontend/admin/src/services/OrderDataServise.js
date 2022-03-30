@@ -13,7 +13,6 @@ export default new class {
     }
 
 
-
     getPrice(data) {
         return http.post("api/order/getPrice/" + data.id, {
             "date": data.date
@@ -23,8 +22,18 @@ export default new class {
             },
         });
     }
+
     completeOrder(book_id, token) {
         return http.get("api/order/complete/" + book_id, {
+            headers: {
+                'Authorization': "Bearer " + token,
+                'Accept': 'application/json'
+            },
+        });
+    }
+
+    completeAdmin(book_id, user_id, token) {
+        return http.get("api/admin/order/completeAdmin/" + book_id + '/' + user_id, {
             headers: {
                 'Authorization': "Bearer " + token,
                 'Accept': 'application/json'
@@ -49,6 +58,7 @@ export default new class {
             },
         });
     }
+
     getAllCompleteOrder(token) {
         return http.get("api/admin/order/showAllCompleteOrder", {
             headers: {

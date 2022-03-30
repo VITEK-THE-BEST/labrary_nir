@@ -17,7 +17,7 @@
             <router-link
                 v-model="isAuth"
 
-                to="/authorization">
+                to="/book">
                 <div @click="dropAuthToken">
                     выход
                 </div>

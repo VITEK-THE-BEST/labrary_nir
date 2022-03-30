@@ -10,6 +10,7 @@ class Order extends Model
     protected $table = 'user_book';
 
     protected $casts = [
+        'id' => 'int',
         'user_id' => 'int',
         'book_id' => 'int',
         'date_complete_order'=>'date'
