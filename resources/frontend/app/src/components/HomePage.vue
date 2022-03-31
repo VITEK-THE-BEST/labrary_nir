@@ -1,11 +1,16 @@
 <template>
-<h1>проверка домашней страницы</h1>
-    <h2>{{ $store.state.token }}</h2>
+    <header-component></header-component>
+    <h1>НИР 1181б Лука Виктор Витальевич</h1>
 </template>
 
 <script>
+import HeaderComponent from "@/components/HeaderComponent";
+
 export default {
-    name: "HomePage"
+    name: "HomePage",
+    components:{
+        HeaderComponent
+    }
 }
 </script>
 

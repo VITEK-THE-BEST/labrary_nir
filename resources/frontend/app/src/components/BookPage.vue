@@ -1,4 +1,6 @@
 <template>
+    <header-component></header-component>
+
     <div>
         <h1>Книги:</h1>
     </div>
@@ -10,9 +12,11 @@
                 <input
                     type="date"
                     @input="date = $event.target.value"
+                    min="2022-04-01"
                 >
 
                 <div v-if="buttonOrderVisible">
+                    {{this.nowDate}}
                     <h4>цена аренды: {{ this.priceOrder }}</h4>
                     <button @click="orderBook(this.currentBook)">арендовать книгу</button>
                 </div>
@@ -39,15 +43,18 @@
 import BookDataService from "../services/BookDataServise";
 import OrderDataService from "../services/OrderDataServise";
 import DialogComponent from "@/components/DialogComponent";
+import HeaderComponent from "@/components/HeaderComponent";
 
 export default {
     name: "BookPage",
     components: {
-        DialogComponent
+        DialogComponent,
+        HeaderComponent
     },
     data() {
         return {
             date: "",
+            nowDate: "2022-03-31",
             books: [],
             currentBook: {},
             dialogVisible: false,
@@ -61,6 +68,14 @@ export default {
         }
     },
     methods: {
+        getNowDate(){
+            let today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            const yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
+            return today.toString();
+        },
         getBooks() {
             BookDataService.show()
                 .then(response => {
@@ -108,6 +123,7 @@ export default {
     },
     mounted() {
         this.getBooks()
+        // this.nowDate = this.getNowDate()
     }
 }
 </script>

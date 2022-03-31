@@ -1,4 +1,5 @@
 <template>
+    <header-component></header-component>
     <div>
         <form @submit.prevent>
 
@@ -17,7 +18,7 @@
                 @input="user.password = $event.target.value"
                 id="password">
 
-            <button @click="getToken"> зарегистрироваться</button>
+            <button @click="getToken" > зарегистрироваться</button>
         </form>
     </div>
 </template>
@@ -25,16 +26,24 @@
 <script>
 import {mapMutations} from "vuex";
 import UserDataService from "@/services/UserDataServise";
+import HeaderComponent from "@/components/HeaderComponent";
 
 export default {
     name: "AuthorizationPage",
+    components:{
+        HeaderComponent
+    },
     data() {
         return {
             user: {
                 phone: '',
                 password: '',
-            }
+            },
+            isAuth:false
         }
+    },
+    watch:{
+
     },
     methods: {
         ...mapMutations({
@@ -45,6 +54,7 @@ export default {
                 .then(response => {
                     console.log(response.data)
                     this.setToken(response.data["token"])
+                    this.$router.push('/')
                 })
                 .catch(e => {
                     console.log(e);

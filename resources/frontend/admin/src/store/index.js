@@ -16,7 +16,7 @@ export default createStore({
         }
     },
     getters:{
-        getIsAuth(state){
+        getIsAuth(){
             return state.isAuht
         }
     },

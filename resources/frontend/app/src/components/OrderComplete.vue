@@ -1,4 +1,6 @@
 <template>
+    <header-component></header-component>
+
     <div>
         <router-link to="/order_notComplete">текущие заказы</router-link> |
         <router-link to="/order_Complete">завершенные заказы</router-link>  |
@@ -19,9 +21,13 @@
 <script>
 import moment from "moment";
 import OrderDataService from "@/services/OrderDataServise";
+import HeaderComponent from "@/components/HeaderComponent";
 
 export default {
     name: "OrderComplete",
+    components:{
+        HeaderComponent
+    },
     created: function () {
         this.moment = moment;
     },

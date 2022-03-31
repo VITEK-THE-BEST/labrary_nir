@@ -1,4 +1,6 @@
 <template>
+    <header-component></header-component>
+
     <div>
         <form @submit.prevent>
             <label>Имя</label>:
@@ -56,9 +58,13 @@
 <script>
 import UserDataService from "../services/UserDataServise";
 import {mapMutations} from 'vuex';
+import HeaderComponent from "@/components/HeaderComponent";
 
 export default {
     name: "RegistrationPage",
+    components:{
+        HeaderComponent
+    },
     data() {
         return {
             user: {
@@ -81,6 +87,7 @@ export default {
                 .then(response => {
                     console.log(response.data)
                     this.setToken(response.data["token"])
+                    this.$router.push('/')
                 })
                 .catch(e => {
                     console.log(e);
