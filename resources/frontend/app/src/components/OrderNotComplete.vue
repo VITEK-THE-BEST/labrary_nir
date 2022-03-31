@@ -1,6 +1,18 @@
 <template>
     <header-component></header-component>
 
+    <dialog-component v-model:show="dialogVisible">
+        <div v-if="price < 0">
+            <h3>Вы должны доплатить: {{ Math.abs(price).toFixed(2)}}</h3>
+            <button @click="completeOrder(order.book.id)"> поддтвердить получение</button>
+        </div>
+        <div v-else>
+            <h3>Вам должны вернуть: {{ price}}</h3>
+            <button @click="completeOrder(order.book.id)"> поддтвердить получение</button>
+
+        </div>
+    </dialog-component>
+
     <div>
         <router-link to="/order_notComplete">текущие заказы</router-link> |
         <router-link to="/order_Complete">завершенные заказы</router-link>  |
@@ -15,7 +27,7 @@
         <p>{{ order.book.author }}</p>
         <div>
             <p>зарезеривирован до: {{ moment(order.date_complete_order).format("D.M.YY") }}</p>
-            <button @click="completeOrder(order.book.id)"> вернуть книгу</button>
+            <button @click="showDialog()"> вернуть книгу</button>
         </div>
     </div>
 </template>
@@ -24,11 +36,13 @@
 import moment from "moment";
 import OrderDataService from "@/services/OrderDataServise";
 import HeaderComponent from "@/components/HeaderComponent";
+import DialogComponent from "@/components/DialogComponent";
 
 export default {
     name: "OrderNotComplete",
     components:{
-        HeaderComponent
+        HeaderComponent,
+        DialogComponent
     },
     created: function () {
         this.moment = moment;
@@ -36,6 +50,8 @@ export default {
     data() {
         return {
             orders: [],
+            dialogVisible: false,
+            price:0
         }
     },
     methods: {
@@ -61,9 +77,13 @@ export default {
                 .catch(e => {
                     console.log(e);
                 });
-        }
+        },
+        showDialog(){
+            this.dialogVisible = true
+        },
     },
     mounted() {
+        this.getOrders()
         this.getOrders()
     }
 }
