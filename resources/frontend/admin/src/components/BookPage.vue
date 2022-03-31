@@ -7,14 +7,24 @@
         <dialog-component v-model:show="dialogVisible">
             <div>
                 <h3>человека который хочет арендовать книгу</h3>
-                <select-component
-                v-model:model-value_="users"
-                    :options="users"
-                ></select-component>
-<!--                <input-->
-<!--                    type="date"-->
-<!--                    @input="date = $event.target.value"-->
-<!--                >-->
+                <select @change="switchSelect">
+                    <option disabled value="">Выберите из списка</option>
+
+                    <option
+                        v-for="option in users"
+                        :key="option.id"
+                        :value="option.id"
+                    >
+                        {{ option.name }}
+                    </option>
+                </select>
+
+
+                <br>
+                <input
+                    type="date"
+                    @input="date = $event.target.value"
+                >
 
                 <div v-if="buttonOrderVisible">
                     <h4>цена аренды: {{ this.priceOrder }}</h4>
@@ -29,10 +39,11 @@
             v-for="book in books"
             :key="book.id"
         >
+            <h3>{{ book['id'] }}</h3>
             <h3>{{ book['name'] }}</h3>
             <p>{{ book['author'] }}</p>
             <p>{{ book['genre'] }}</p>
-            <button @click="showDialogTakeData(book)">арендовать за</button>
+            <button @click="showDialogTakeData(book)">выдать книгу</button>
 
         </div>
 
@@ -44,13 +55,11 @@ import UserDataServise from "../services/UserDataServise";
 import BookDataService from "../services/BookDataServise";
 import OrderDataService from "../services/OrderDataServise";
 import DialogComponent from "@/components/DialogComponent";
-import SelectComponent from "@/components/SelectComponent";
 
 export default {
     name: "BookPage",
     components: {
         DialogComponent,
-        SelectComponent
     },
     data() {
         return {
@@ -61,7 +70,7 @@ export default {
             buttonOrderVisible: false,
             priceOrder: 0,
             selectUser: '',
-            users: [],
+            users: [{}],
         }
     },
     watch: {
@@ -70,6 +79,10 @@ export default {
         }
     },
     methods: {
+        switchSelect(event) {
+            console.log(event)
+            this.selectUser = event.target.value;
+        },
         getBooks() {
             BookDataService.show()
                 .then(response => {
@@ -95,7 +108,7 @@ export default {
 
         },
         orderBook(book) {
-            OrderDataService.create(book, this.date, this.$store.state.token)
+            OrderDataService.createOrderAdmin(book, this.date,this.selectUser, this.$store.state.token)
                 .then(response => {
                     console.log(response.data)
                     this.getBooks();
@@ -113,7 +126,7 @@ export default {
             this.currentBook = book;
         },
         getUsers() {
-            UserDataServise.getUsers( this.$store.state.token)
+            UserDataServise.getUsers(this.$store.state.token)
                 .then(response => {
                     this.users = response.data
                 })

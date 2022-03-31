@@ -4,6 +4,19 @@ export default new class {
     create(data, date, token) {
         return http.post("api/order/create/" + data.id, {
             "date_complete_order": date
+
+        }, {
+            headers: {
+                'Authorization': "Bearer " + token,
+                'Accept': 'application/json'
+            },
+        });
+    }
+    createOrderAdmin(data, date,user_id, token) {
+        return http.post("api/admin/order/create/" + data.id, {
+            "date_complete_order": date,
+            "user_id": user_id
+
         }, {
             headers: {
                 'Authorization': "Bearer " + token,

@@ -42,7 +42,6 @@ class OrderController extends Controller
         if ($book['reserved'] == false) {
             $user->books()->attach($book, [
                 'date_complete_order' => $validate['date_complete_order'],
-
             ]);
             $book->reserved = true;
             $book->save();
@@ -199,7 +198,7 @@ class OrderController extends Controller
         $daysCompeteOrder = $created_at->diffInDays($date_complete_order) * ($value['book']['price'] * 0.05);//цена за дни улпаченные
 
         //если число отрицательное, значит что пользователь должен дать денег
-        $value['price'] = ($value['book']['price'] / 2) - $daysCompeteOrder + $bonus;
+        $value['price'] = ($value['book']['price'] / 2) - ($daysCompeteOrder + $bonus);
 
         return $value;
     }
