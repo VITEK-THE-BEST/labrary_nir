@@ -12,6 +12,8 @@ Route::post('/getToken', [UserController::class, 'getToken']);
 
 Route::group(['prefix' => 'book'], function () {
     Route::get('/show', [BookController::class, 'show']);
+    Route::post('/create', [BookController::class, 'create']);
+
 });
 
 Route::group(['prefix' => 'order'], function () {
@@ -31,6 +33,7 @@ Route::middleware(['api', 'auth:sanctum'])->group(function () {
         Route::get('/complete/{book}', [OrderController::class, 'complete']);
         Route::get('/showCompleteOrder', [OrderController::class, 'showCompleteOrder']);
         Route::get('/showNotCompleteOrder', [OrderController::class, 'showNotCompleteOrder']);
+        Route::get('/getCompletePrice/{book}', [OrderController::class, 'getCompletePrice']);
     });
 });
 

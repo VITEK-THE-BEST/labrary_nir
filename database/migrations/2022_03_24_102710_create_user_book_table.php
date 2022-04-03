@@ -23,6 +23,7 @@ return new class extends Migration
 
             $table->timestamps();
             $table->date('date_complete_order');
+            $table->boolean('complete')->default(true);//завершенный заказ
         });
     }
 

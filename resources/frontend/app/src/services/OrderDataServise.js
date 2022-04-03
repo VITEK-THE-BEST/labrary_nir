@@ -23,6 +23,14 @@ export default new class {
             },
         });
     }
+    getCompletePrice(data,token) {
+        return http.get("api/order/getCompletePrice/" + data.id,  {
+            headers: {
+                'Authorization': "Bearer " + token,
+                'Accept': 'application/json'
+            },
+        });
+    }
     completeOrder(book_id, token) {
         return http.get("api/order/complete/" + book_id, {
             headers: {

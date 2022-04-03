@@ -16,7 +16,7 @@ class UserController extends Controller
             'surname' => 'required',
             'patronymic' => 'sometimes',
             'address' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|unique:users',
             'password' => 'required',
         ]);
 
